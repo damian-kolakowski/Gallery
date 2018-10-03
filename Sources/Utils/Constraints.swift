@@ -22,8 +22,8 @@ extension UIView {
       }.first
   }
 
-  @discardableResult func g_pin(on type1: NSLayoutAttribute,
-             view: UIView? = nil, on type2: NSLayoutAttribute? = nil,
+    @discardableResult func g_pin(on type1: NSLayoutConstraint.Attribute,
+                                  view: UIView? = nil, on type2: NSLayoutConstraint.Attribute? = nil,
              constant: CGFloat = 0,
              priority: Float? = nil) -> NSLayoutConstraint? {
     guard let view = view ?? superview,
@@ -37,7 +37,7 @@ extension UIView {
                                         toItem: view, attribute: type2,
                                         multiplier: 1, constant: constant)
     if let priority = priority {
-      constraint.priority = priority
+        constraint.priority = UILayoutPriority(rawValue: priority)
     }
 
     commonAncestor.addConstraint(constraint)

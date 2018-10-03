@@ -118,18 +118,18 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
     guard previewLayer == nil else { return }
 
     let layer = AVCaptureVideoPreviewLayer(session: session)
-    layer?.autoreverses = true
-    layer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+    layer.autoreverses = true
+    layer.videoGravity = AVLayerVideoGravity.resizeAspectFill
 
-    self.layer.insertSublayer(layer!, at: 0)
-    layer?.frame = self.layer.bounds
+    self.layer.insertSublayer(layer, at: 0)
+    layer.frame = self.layer.bounds
 
     previewLayer = layer
   }
 
   // MARK: - Action
 
-  func viewTapped(_ gr: UITapGestureRecognizer) {
+  @objc func viewTapped(_ gr: UITapGestureRecognizer) {
     let point = gr.location(in: self)
 
     focusImageView.transform = CGAffineTransform.identity
@@ -149,7 +149,7 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
 
   // MARK: - Timer
 
-  func timerFired(_ timer: Timer) {
+  @objc func timerFired(_ timer: Timer) {
     UIView.animate(withDuration: 0.3, animations: {
       self.focusImageView.alpha = 0
     }, completion: { _ in
@@ -157,7 +157,7 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
     })
   }
   
-  func videoRecodringTimerFired(_ timer: Timer) {
+  @objc func videoRecodringTimerFired(_ timer: Timer) {
     guard let dictionary = timer.userInfo as? [String: Any], let start = dictionary["start"] as? TimeInterval else {
       return
     }
@@ -228,16 +228,16 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
 
   func makeCloseButton() -> UIButton {
     let button = UIButton(type: .custom)
-    button.setImage(Bundle.image("gallery_close"), for: UIControlState())
+    button.setImage(Bundle.image("gallery_close"), for: UIControl.State())
 
     return button
   }
 
   func makeFlashButton() -> TripleButton {
-    let states: [TripleButton.State] = [
-      TripleButton.State(title: "Gallery.Camera.Flash.Off".g_localize(fallback: "OFF"), image: Bundle.image("gallery_camera_flash_off")!),
-      TripleButton.State(title: "Gallery.Camera.Flash.On".g_localize(fallback: "ON"), image: Bundle.image("gallery_camera_flash_on")!),
-      TripleButton.State(title: "Gallery.Camera.Flash.Auto".g_localize(fallback: "AUTO"), image: Bundle.image("gallery_camera_flash_auto")!)
+    let states: [TripleButtonState] = [
+      TripleButtonState(title: "Gallery.Camera.Flash.Off".g_localize(fallback: "OFF"), image: Bundle.image("gallery_camera_flash_off")!),
+      TripleButtonState(title: "Gallery.Camera.Flash.On".g_localize(fallback: "ON"), image: Bundle.image("gallery_camera_flash_on")!),
+      TripleButtonState(title: "Gallery.Camera.Flash.Auto".g_localize(fallback: "AUTO"), image: Bundle.image("gallery_camera_flash_auto")!)
     ]
 
     let button = TripleButton(states: states)
@@ -247,7 +247,7 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
 
   func makeRotateButton() -> UIButton {
     let button = UIButton(type: .custom)
-    button.setImage(Bundle.image("gallery_camera_rotate"), for: UIControlState())
+    button.setImage(Bundle.image("gallery_camera_rotate"), for: UIControl.State())
 
     return button
   }
@@ -288,10 +288,10 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
 
   func makeDoneButton() -> UIButton {
     let button = UIButton(type: .system)
-    button.setTitleColor(UIColor.white, for: UIControlState())
+    button.setTitleColor(UIColor.white, for: UIControl.State())
     button.setTitleColor(UIColor.lightGray, for: .disabled)
     button.titleLabel?.font = Config.Font.Text.regular.withSize(16)
-    button.setTitle("Gallery.Done".g_localize(fallback: "Done"), for: UIControlState())
+    button.setTitle("Gallery.Done".g_localize(fallback: "Done"), for: UIControl.State())
 
     return button
   }

@@ -69,8 +69,8 @@ class PageIndicator: UIView {
 
   func makeButton(_ title: String) -> UIButton {
     let button = UIButton(type: .custom)
-    button.setTitle(title, for: UIControlState())
-    button.setTitleColor(Config.PageIndicator.textColor, for: UIControlState())
+    button.setTitle(title, for: UIControl.State())
+    button.setTitleColor(Config.PageIndicator.textColor, for: UIControl.State())
     button.setTitleColor(UIColor.gray, for: .highlighted)
     button.backgroundColor = Config.PageIndicator.backgroundColor
     button.addTarget(self, action: #selector(buttonTouched(_:)), for: .touchUpInside)
@@ -87,7 +87,7 @@ class PageIndicator: UIView {
 
   // MARK: - Action
 
-  func buttonTouched(_ button: UIButton) {
+    @objc func buttonTouched(_ button: UIButton) {
     let index = buttons.index(of: button) ?? 0
     delegate?.pageIndicator(self, didSelect: index)
     select(index: index)

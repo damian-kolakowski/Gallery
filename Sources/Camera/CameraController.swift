@@ -57,7 +57,7 @@ class CameraController: UIViewController {
     cameraView.doneButton.addTarget(self, action: #selector(doneButtonTouched(_:)), for: .touchUpInside)
   }
 
-  func setupLocation() {
+  @objc func setupLocation() {
     if Config.Camera.recordLocation {
       locationManager = LocationManager()
     }
@@ -65,19 +65,19 @@ class CameraController: UIViewController {
 
   // MARK: - Action
 
-  func closeButtonTouched(_ button: UIButton) {
+  @objc func closeButtonTouched(_ button: UIButton) {
     EventHub.shared.close?()
   }
 
-  func flashButtonTouched(_ button: UIButton) {
+  @objc func flashButtonTouched(_ button: UIButton) {
     cameraView.flashButton.toggle()
 
-    if let flashMode = AVCaptureFlashMode(rawValue: cameraView.flashButton.selectedIndex) {
+    if let flashMode = AVCaptureDevice.FlashMode(rawValue: cameraView.flashButton.selectedIndex) {
       cameraMan.flash(flashMode)
     }
   }
 
-  func rotateButtonTouched(_ button: UIButton) {
+  @objc func rotateButtonTouched(_ button: UIButton) {
     UIView.animate(withDuration: 0.3, animations: {
       self.cameraView.rotateOverlayView.alpha = 1
     }, completion: { _ in
@@ -89,12 +89,12 @@ class CameraController: UIViewController {
     })
   }
 
-  func stackViewTouched(_ stackView: StackView) {
+  @objc func stackViewTouched(_ stackView: StackView) {
     EventHub.shared.stackViewTouched?()
   }
 
     
-  func shutterButtonTouched(_ button: ShutterButton) {
+  @objc func shutterButtonTouched(_ button: ShutterButton) {
     guard let previewLayer = cameraView.previewLayer else { return }
     
     switch Config.Camera.recordMode {
@@ -148,7 +148,7 @@ class CameraController: UIViewController {
     }
   }
 
-  func doneButtonTouched(_ button: UIButton) {
+  @objc func doneButtonTouched(_ button: UIButton) {
     EventHub.shared.doneWithImages?()
   }
 

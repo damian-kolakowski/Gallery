@@ -103,7 +103,7 @@ class GridView: UIView {
 
   func makeCloseButton() -> UIButton {
     let button = UIButton(type: .custom)
-    button.setImage(Bundle.image("gallery_close")?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+    button.setImage(Bundle.image("gallery_close")?.withRenderingMode(.alwaysTemplate), for: UIControl.State())
     button.tintColor = Config.Grid.CloseButton.tintColor
 
     return button
@@ -111,10 +111,10 @@ class GridView: UIView {
 
   func makeDoneButton() -> UIButton {
     let button = UIButton(type: .system)
-    button.setTitleColor(UIColor.white, for: UIControlState())
+    button.setTitleColor(UIColor.white, for: UIControl.State())
     button.setTitleColor(UIColor.lightGray, for: .disabled)
     button.titleLabel?.font = Config.Font.Text.regular.withSize(16)
-    button.setTitle("Gallery.Done".g_localize(fallback: "Done"), for: UIControlState())
+    button.setTitle("Gallery.Done".g_localize(fallback: "Done"), for: UIControl.State())
     
     return button
   }

@@ -96,7 +96,7 @@ public struct Config {
   }
     
   public struct SessionPreset {
-      public static var quality: String = AVCaptureSessionPresetHigh
+    public static var quality: String = AVCaptureSession.Preset.high.rawValue
   }
   
   public struct VideoRecording {

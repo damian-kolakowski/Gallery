@@ -6,12 +6,12 @@ struct EditInfo {
   // MARK: - Basic
 
   static func composition(_ avAsset: AVAsset) -> AVVideoComposition? {
-    guard let track = avAsset.tracks(withMediaType: AVMediaTypeVideo).first else { return nil }
+    guard let track = avAsset.tracks(withMediaType: AVMediaType.video).first else { return nil }
 
     let cropInfo = EditInfo.cropInfo(avAsset)
 
     let layer = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
-    layer.setTransform(EditInfo.transform(avAsset, scale: cropInfo.scale), at: kCMTimeZero)
+    layer.setTransform(EditInfo.transform(avAsset, scale: cropInfo.scale), at: CMTime.zero)
 
     let instruction = AVMutableVideoCompositionInstruction()
     instruction.layerInstructions = [layer]
@@ -81,11 +81,11 @@ struct EditInfo {
       end = CMTime(seconds: Config.VideoEditor.maximumDuration, preferredTimescale: 1000)
     }
 
-    return CMTimeRange(start: kCMTimeZero, duration: end)
+    return CMTimeRange(start: CMTime.zero, duration: end)
   }
 
   static var file: (type: String, pathExtension: String) {
-    return (type: AVFileTypeMPEG4, pathExtension: "mp4")
+    return (type: AVFileType.mp4.rawValue, pathExtension: "mp4")
   }
 
   static var outputURL: URL? {

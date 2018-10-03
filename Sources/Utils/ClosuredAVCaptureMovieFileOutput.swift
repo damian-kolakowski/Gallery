@@ -3,7 +3,7 @@ import AVFoundation
 import Photos
 
 public class ClosuredAVCaptureMovieFileOutput: NSObject, AVCaptureFileOutputRecordingDelegate {
-  
+    
   private let output: AVCaptureMovieFileOutput
   private let queue: DispatchQueue
   
@@ -14,10 +14,10 @@ public class ClosuredAVCaptureMovieFileOutput: NSObject, AVCaptureFileOutputReco
     self.queue = sessionQueue
     self.output = AVCaptureMovieFileOutput()
     self.output.minFreeDiskSpaceLimit = 1024 * 1024
-    self.output.movieFragmentInterval = kCMTimeInvalid
+    self.output.movieFragmentInterval = CMTime.invalid
     
     if let maxLengthInSecondsFound = Config.VideoRecording.maxLengthInSeconds {
-      self.output.maxRecordedDuration = CMTimeMakeWithSeconds(Float64(maxLengthInSecondsFound), Int32(30))
+        self.output.maxRecordedDuration = CMTimeMakeWithSeconds(Float64(maxLengthInSecondsFound), preferredTimescale: Int32(30))
     }
     
     if let maxBytesCountFound = Config.VideoRecording.maxBytesCount {
@@ -31,7 +31,7 @@ public class ClosuredAVCaptureMovieFileOutput: NSObject, AVCaptureFileOutputReco
     }
     
     if Permission.Microphone.hasPermission {
-      if let audioDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio) {
+      if let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio) {
         if let audioInput = try? AVCaptureDeviceInput(device: audioDevice) {
           if session.canAddInput(audioInput){
             session.addInput(audioInput)
@@ -47,7 +47,7 @@ public class ClosuredAVCaptureMovieFileOutput: NSObject, AVCaptureFileOutputReco
   
   public func startRecording(startCompletion: ((Bool) -> Void)?, stopCompletion: ((URL?) -> Void)?) {
     
-    guard let connection = output.connection(withMediaType: AVMediaTypeVideo) else {
+    guard let connection = output.connection(with: AVMediaType.video) else {
       startCompletion?(false)
       return
     }
@@ -62,7 +62,7 @@ public class ClosuredAVCaptureMovieFileOutput: NSObject, AVCaptureFileOutputReco
           try? FileManager.default.removeItem(at: url)
         }
         self.videoRecordStartedCompletion = startCompletion
-        self.output.startRecording(toOutputFileURL: url, recordingDelegate: self)
+        self.output.startRecording(to: url, recordingDelegate: self)
       } else {
         DispatchQueue.main.async { startCompletion?(false) }
       }
@@ -80,14 +80,14 @@ public class ClosuredAVCaptureMovieFileOutput: NSObject, AVCaptureFileOutputReco
     self.videoRecordStartedCompletion = nil
   }
   
-  public func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
+  public func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
     if error == nil {
       DispatchQueue.main.async {
         self.videoRecordCompletion?(outputFileURL)
         self.videoRecordCompletion = nil
       }
     } else {
-      let finishedSuccesfully = recodringFinishedWithSuccess(error)
+      let finishedSuccesfully = recodringFinishedWithSuccess(error!)
       DispatchQueue.main.async {
         self.videoRecordCompletion?(finishedSuccesfully ? outputFileURL : nil)
         self.videoRecordCompletion = nil
