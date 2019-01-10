@@ -74,12 +74,12 @@ public class ClosuredAVCaptureMovieFileOutput: NSObject, AVCaptureFileOutputReco
       self.output.stopRecording()
     }
   }
-  
-  public func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
-    self.videoRecordStartedCompletion?(false)
-    self.videoRecordStartedCompletion = nil
+    
+  public func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
+     self.videoRecordStartedCompletion?(false)
+     self.videoRecordStartedCompletion = nil
   }
-  
+
   public func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
     if error == nil {
       DispatchQueue.main.async {
