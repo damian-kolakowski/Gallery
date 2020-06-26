@@ -55,7 +55,11 @@ class PagesController: UIViewController {
     scrollView.alwaysBounceHorizontal = false
     scrollView.bounces = false
     scrollView.delegate = self
-
+    if #available(iOS 11.0, *) {
+        scrollView.contentInsetAdjustmentBehavior = .never
+    } else {
+        // Fallback on earlier versions
+    }
     return scrollView
   }
 
@@ -70,6 +74,7 @@ class PagesController: UIViewController {
   // MARK: - Setup
 
   func setup() {
+    view.backgroundColor = Config.darkModeEnabled ? .black : .white
     view.addSubview(pageIndicator)
     view.addSubview(scrollView)
     scrollView.addSubview(scrollViewContentView)
@@ -77,7 +82,15 @@ class PagesController: UIViewController {
     pageIndicator.g_pinDownward()
     pageIndicator.g_pin(height: 40)
 
-    scrollView.g_pinUpward()
+    if #available(iOS 11.0,  *) {
+        scrollView.g_pin(on: .top, constant: UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0)
+    } else {
+        scrollView.g_pin(on: .top, constant: 0)
+    }
+    
+    scrollView.g_pin(on: .left)
+    scrollView.g_pin(on: .right)
+    
     scrollView.g_pin(on: .bottom, view: pageIndicator, on: .top)
 
     scrollViewContentView.g_pinEdges()

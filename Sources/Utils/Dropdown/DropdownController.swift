@@ -71,9 +71,15 @@ class DropdownController: UIViewController {
     tableView.separatorStyle = .none
     tableView.rowHeight = 84
 
+    
+
+    if #available(iOS 11.0, *) {
+        tableView.contentInsetAdjustmentBehavior = .never
+    } else {
+        // Fallback on earlier versions
+    }
     tableView.dataSource = self
     tableView.delegate = self
-
     return tableView
   }
 
