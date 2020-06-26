@@ -78,9 +78,11 @@ class DropdownController: UIViewController {
   }
 
   func makeBlurView() -> UIVisualEffectView {
-    let view = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
-
-    return view
+    if #available(iOS 10.0, *) {
+        return UIVisualEffectView(effect: UIBlurEffect(style: Config.darkModeEnabled ? .dark : .extraLight))
+    } else {
+        return UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+    }
   }
 }
 
@@ -95,7 +97,7 @@ extension DropdownController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: AlbumCell.self), for: indexPath)
       as! AlbumCell
-
+    cell.selectionStyle = .none
     let album = albums[(indexPath as NSIndexPath).row]
     cell.configure(album)
     cell.backgroundColor = UIColor.clear

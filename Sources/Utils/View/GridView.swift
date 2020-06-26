@@ -29,7 +29,7 @@ class GridView: UIView {
   // MARK: - Setup
 
   func setup() {
-    backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+    backgroundColor = Config.darkModeEnabled ? .black : UIColor.lightGray.withAlphaComponent(0.5)
 
     [collectionView, bottomView, topView, emptyView].forEach {
       addSubview($0)
@@ -71,7 +71,7 @@ class GridView: UIView {
 
   func makeTopView() -> UIView {
     let view = UIView()
-    view.backgroundColor = UIColor.white
+    view.backgroundColor = Config.darkModeEnabled ? .black : .white
 
     return view
   }
@@ -125,7 +125,7 @@ class GridView: UIView {
     layout.minimumLineSpacing = 2
 
     let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-    view.backgroundColor = UIColor.white
+    view.backgroundColor = Config.darkModeEnabled ? .black : .white
 
     return view
   }

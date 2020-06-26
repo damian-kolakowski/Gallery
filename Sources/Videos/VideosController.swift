@@ -23,7 +23,7 @@ class VideosController: UIViewController {
   // MARK: - Setup
 
   func setup() {
-    view.backgroundColor = UIColor.white
+    view.backgroundColor = Config.darkModeEnabled ? .black : .white
 
     view.addSubview(gridView)
 
