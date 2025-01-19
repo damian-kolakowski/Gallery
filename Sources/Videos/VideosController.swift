@@ -39,7 +39,6 @@ class VideosController: UIViewController {
 
     infoLabel.g_pin(on: .centerY)
     infoLabel.g_pin(on: .left, view: videoBox, on: .right, constant: 11)
-    infoLabel.g_pin(on: .right, constant: -50)
 
     gridView.closeButton.addTarget(self, action: #selector(closeButtonTouched(_:)), for: .touchUpInside)
     gridView.doneButton.addTarget(self, action: #selector(doneButtonTouched(_:)), for: .touchUpInside)
