@@ -115,4 +115,5 @@ public struct Config {
   }
   
   public static var darkModeEnabled = false
+  public static var selectionLimit: Int?
 }

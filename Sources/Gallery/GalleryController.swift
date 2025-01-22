@@ -14,7 +14,7 @@ public protocol GalleryControllerDelegate2: class {
   
   func galleryController(_ controller: GalleryController, requestLightbox images: [UIImage])
   func galleryControllerDidCancel(_ controller: GalleryController)
-  
+  func galleryController(_ controller: GalleryController, didReachSelectionLimit limit: Int?)
   func galleryController(_ controller: GalleryController, didSelectAssets assets: [PHAsset])
 }
 
@@ -160,6 +160,12 @@ public class GalleryController: UIViewController, PermissionControllerDelegate {
     EventHub.shared.stackViewTouched = { [weak self] in
       if let strongSelf = self {
         strongSelf.delegate?.galleryController(strongSelf, requestLightbox: Cart.shared.UIImages())
+      }
+    }
+      
+    EventHub.shared.reachedSelectionLimit = { [weak self] in
+      if let strongSelf = self {
+          strongSelf.delegate2?.galleryController(strongSelf, didReachSelectionLimit: Config.selectionLimit)
       }
     }
   }
