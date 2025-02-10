@@ -74,13 +74,23 @@ class PagesController: UIViewController {
   // MARK: - Setup
 
   func setup() {
-    view.backgroundColor = Config.darkModeEnabled ? .black : .white
+    view.backgroundColor = .black
     view.addSubview(pageIndicator)
     view.addSubview(scrollView)
     scrollView.addSubview(scrollViewContentView)
 
-    pageIndicator.g_pinDownward()
-    pageIndicator.g_pin(height: 40)
+    scrollView.backgroundColor = Config.darkModeEnabled ? .black : .white
+      
+    if #available(iOS 11.0,  *) {
+      pageIndicator.g_pin(on: .bottom, constant: -(UIApplication.shared.delegate?.window??.safeAreaInsets.bottom ?? 0))
+    } else {
+      pageIndicator.g_pin(on: .bottom, constant: 0)
+    }
+      
+    pageIndicator.g_pin(on: .left)
+    pageIndicator.g_pin(on: .right)
+      
+    pageIndicator.g_pin(height: 50)
 
     if #available(iOS 11.0,  *) {
         scrollView.g_pin(on: .top, constant: UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0)
