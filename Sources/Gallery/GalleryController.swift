@@ -146,7 +146,7 @@ public class GalleryController: UIViewController, PermissionControllerDelegate {
     EventHub.shared.doneWithImages = { [weak self] in
       if let strongSelf = self {
         strongSelf.delegate?.galleryController(strongSelf, didSelectImages: Cart.shared.UIImages())
-        strongSelf.delegate2?.galleryController(strongSelf, didSelectAssets: Cart.shared.assets())
+        strongSelf.delegate2?.galleryController(strongSelf, didSelectAssets: Cart.shared.images.map({ $0.asset }))
       }
     }
 
