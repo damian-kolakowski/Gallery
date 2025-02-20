@@ -99,6 +99,11 @@ class CameraController: UIViewController {
     
     switch Config.Camera.recordMode {
     case .photo:
+        
+      if let limit = Config.selectionLimit, Cart.shared.images.count >= limit {
+        EventHub.shared.reachedSelectionLimit?()
+        return
+      }
       
       button.isEnabled = false
       UIView.animate(withDuration: 0.1, animations: {
