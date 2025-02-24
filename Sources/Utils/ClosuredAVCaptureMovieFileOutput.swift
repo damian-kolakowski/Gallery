@@ -57,7 +57,7 @@ public class ClosuredAVCaptureMovieFileOutput: NSObject, AVCaptureFileOutputReco
     self.videoRecordCompletion = stopCompletion
     
     queue.async {
-      if let url = NSURL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent("movie.mov") {
+        if let url = NSURL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString + ".mov") {
         if FileManager.default.fileExists(atPath: url.absoluteString) {
           try? FileManager.default.removeItem(at: url)
         }
