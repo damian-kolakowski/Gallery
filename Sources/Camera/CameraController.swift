@@ -154,7 +154,12 @@ class CameraController: UIViewController {
   }
 
   @objc func doneButtonTouched(_ button: UIButton) {
-    EventHub.shared.doneWithImages?()
+      switch Config.Camera.recordMode {
+      case .photo:
+          EventHub.shared.doneWithImages?()
+      case .video:
+          EventHub.shared.doneWithVideos?()
+      }
   }
 
   // MARK: - View
